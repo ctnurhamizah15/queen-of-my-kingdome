@@ -1,0 +1,978 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+conversion.exe -- emu8086 assembler version: 4.08  
+ 
+[ 9/5/2018  --  12:31:15 AM ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       .MODEL SMALL
+[   2]        :                                       
+[   3]        :                                       .STACK 100H
+[   4]        :                                       
+[   5]        :                                       .DATA
+[   6]        :                                       
+[   7]    0100: 00 00                                 OUTD DW ?
+[   8]    0102: 00                                    IND DB ?
+[   9]        :                                       
+[  10]    0103: 00                                    SELECT DB ?
+[  11]        :                                       
+[  12]    0104: 00 00                                 INP1 DW ?   ; save decimal input
+[  13]    0106: 00 00                                 INP2 DW ?   ; save binary input
+[  14]    0108: 00 00                                 INP3 DW ?   ; save hexadecimal input
+[  15]        :                                       
+[  16]    010A: 00                                    COUNT DB ?
+[  17]        :                                       
+[  18]    010B: 00                                    O1 DB ?     ; save 1st 4bit of a binary number
+[  19]    010C: 00                                    T2 DB ?     ; save 2nd 4bit of a binary number
+[  20]    010D: 00                                    T3 DB ?     ; save 3rd 4bit of a binary number
+[  21]    010E: 00                                    F4 DB ?     ; save 4th 4bit of a binary number
+[  22]        :                                       
+[  23]    010F: 00                                    D1 DB ?     ; save 1st decimal digit
+[  24]    0110: 00                                    D2 DB ?     ; save 2nd decimal digit
+[  25]    0111: 00                                    D3 DB ?     ; save 3rd decimal digit
+[  26]    0112: 00                                    D4 DB ?     ; save 4th decimal digit
+[  27]    0113: 00                                    D5 DB ?     ; save 5th decimal digit
+[  28]        :                                       
+[  29]    0114: 00 00                                 REM DW ?
+[  30]        :                                       
+[  31]    0116: 0A 0D 24                              NEWL DB 10,13,'$'   ;newline
+[  32]        :                                       
+[  33]    0119: 09 4D 45 4E 55 20 24                  MENU DB 9,'MENU $'
+[  34]        :                                       
+[  35]    0120: 31 2E 20 44 45 43 49 4D 41 4C 20 54   OP1 DB '1. DECIMAL TO BINARY $'
+                4F 20 42 49 4E 41 52 59 20 24       
+[  36]    0136: 32 2E 20 44 45 43 49 4D 41 4C 20 54   OP2 DB '2. DECIMAL TO HEXADECIMAL $'
+                4F 20 48 45 58 41 44 45 43 49 4D 41 
+                4C 20 24                            
+[  37]    0151: 33 2E 20 42 49 4E 41 52 59 20 54 4F   OP3 DB '3. BINARY TO DECIMAL $'
+                20 44 45 43 49 4D 41 4C 20 24       
+[  38]    0167: 34 2E 20 42 49 4E 41 52 59 20 54 4F   OP4 DB '4. BINARY TO HEXADECIMAL $'
+                20 48 45 58 41 44 45 43 49 4D 41 4C 
+                20 24                               
+[  39]    0181: 35 2E 20 48 45 58 41 44 45 43 49 4D   OP5 DB '5. HEXADECIMAL TO DECIMAL $'
+                41 4C 20 54 4F 20 44 45 43 49 4D 41 
+                4C 20 24                            
+[  40]    019C: 36 2E 20 48 45 58 41 44 45 43 49 4D   OP6 DB '6. HEXADECIMAL TO BINARY $'
+                41 4C 20 54 4F 20 42 49 4E 41 52 59 
+                20 24                               
+[  41]    01B6: 30 2E 20 45 58 49 54 20 24            OP0 DB '0. EXIT $'
+[  42]        :                                       
+[  43]    01BF: 2D 3E 20 49 4E 50 55 54 20 43 48 41   DECIMALINP DB '-> INPUT CHARACTER(0 TO 9) WITH '-' OR + AND MAXIMUM INPUT 65,535 $'
+                52 41 43 54 45 52 28 30 20 54 4F 20 
+                39 29 20 57 49 54 48 20 27 2D 27 20 
+                4F 52 20 2B 20 41 4E 44 20 4D 41 58 
+                49 4D 55 4D 20 49 4E 50 55 54 20 36 
+                35 2C 35 33 35 20 24                
+[  44]    0202: 2D 3E 20 49 4E 50 55 54 20 43 48 41   BINARYINP DB '-> INPUT CHARACTER(0 & 1) AND MAXIMUM INPUT 1111 1111 1111 1111 $'
+                52 41 43 54 45 52 28 30 20 26 20 31 
+                29 20 41 4E 44 20 4D 41 58 49 4D 55 
+                4D 20 49 4E 50 55 54 20 31 31 31 31 
+                20 31 31 31 31 20 31 31 31 31 20 31 
+                31 31 31 20 24                      
+[  45]    0243: 2D 3E 20 49 4E 50 55 54 20 43 48 41   HEXADECIMALINP DB '-> INPUT CHARACTER(0 TO 9 && A TO F) AND MAXIMUM INPUT FFFF $'
+                52 41 43 54 45 52 28 30 20 54 4F 20 
+                39 20 26 26 20 41 20 54 4F 20 46 29 
+                20 41 4E 44 20 4D 41 58 49 4D 55 4D 
+                20 49 4E 50 55 54 20 46 46 46 46 20 
+                24                                  
+[  46]        :                                       
+[  47]    0280: 44 45 43 49 4D 41 4C 20 56 41 4C 55   INDECIMAL DB 'DECIMAL VALUE: $'
+                45 3A 20 24                         
+[  48]    0290: 42 49 4E 41 52 59 20 56 41 4C 55 45   INBINARY DB 'BINARY VALUE: $'
+                3A 20 24                            
+[  49]    029F: 48 45 58 41 44 45 43 49 4D 41 4C 20   INHEXADECIMAL DB 'HEXADECIMAL VALUE: $'
+                56 41 4C 55 45 3A 20 24             
+[  50]        :                                       
+[  51]    02B3: 4E 42 3A 20 49 4E 50 55 54 20 45 52   ERRORMSG DB 'NB: INPUT ERROR.PLEASE PRESS RIGHT KEYWORD !! $'
+                52 4F 52 2E 50 4C 45 41 53 45 20 50 
+                52 45 53 53 20 52 49 47 48 54 20 4B 
+                45 59 57 4F 52 44 20 21 21 20 24    
+[  52]    02E2: 4E 42 3A 20 49 4E 50 55 54 20 45 52   ERRORINP DB 'NB: INPUT ERROR.PLEASE INPUT VALID NUMBER !! $'
+                52 4F 52 2E 50 4C 45 41 53 45 20 49 
+                4E 50 55 54 20 56 41 4C 49 44 20 4E 
+                55 4D 42 45 52 20 21 21 20 24       
+[  53]        :                                       
+[  54]    0310: 53 45 4C 45 43 54 3A 20 24            SELECTMSG DB 'SELECT: $'
+[  55]        :                                       
+[  56]        :                                       
+[  57]    0319: 09 54 48 41 4E 4B 53 20 24            ENDMSG DB 9,'THANKS $'
+[  58]        :                                       
+[  59]        :                                       .CODE
+[  60]        :                                       
+[  61]    0330:                                       START:
+[  62]        :                                       
+[  63]    0330: B8 10 00                              MOV AX,@DATA    ; import data segment
+[  64]    0333: 8E D8                                 MOV DS,AX
+[  65]        :                                       
+[  66]    0335: B4 09                                 MOV AH,9
+[  67]    0337: BA 19 00                              LEA DX,MENU     ; print menu
+[  68]    033A: CD 21                                 INT 21H
+[  69]        :                                       
+[  70]    033C: BA 16 00                              LEA DX,NEWL
+[  71]    033F: CD 21                                 INT 21H
+[  72]    0341: BA 16 00                              LEA DX,NEWL
+[  73]    0344: CD 21                                 INT 21H
+[  74]        :                                       
+[  75]    0346: BA 20 00                              LEA DX,OP1      ; print option1
+[  76]    0349: CD 21                                 INT 21H
+[  77]    034B: BA 16 00                              LEA DX,NEWL
+[  78]    034E: CD 21                                 INT 21H
+[  79]        :                                       
+[  80]    0350: BA 36 00                              LEA DX,OP2      ; print option2
+[  81]    0353: CD 21                                 INT 21H
+[  82]    0355: BA 16 00                              LEA DX,NEWL
+[  83]    0358: CD 21                                 INT 21H
+[  84]        :                                       
+[  85]    035A: BA 51 00                              LEA DX,OP3      ; print option3
+[  86]    035D: CD 21                                 INT 21H
+[  87]    035F: BA 16 00                              LEA DX,NEWL
+[  88]    0362: CD 21                                 INT 21H
+[  89]        :                                       
+[  90]    0364: BA 67 00                              LEA DX,OP4      ; print option4
+[  91]    0367: CD 21                                 INT 21H
+[  92]    0369: BA 16 00                              LEA DX,NEWL
+[  93]    036C: CD 21                                 INT 21H
+[  94]        :                                       
+[  95]    036E: BA 81 00                              LEA DX,OP5      ; print option5
+[  96]    0371: CD 21                                 INT 21H
+[  97]    0373: BA 16 00                              LEA DX,NEWL
+[  98]    0376: CD 21                                 INT 21H
+[  99]        :                                       
+[ 100]    0378: BA 9C 00                              LEA DX,OP6      ; print option6
+[ 101]    037B: CD 21                                 INT 21H
+[ 102]    037D: BA 16 00                              LEA DX,NEWL
+[ 103]    0380: CD 21                                 INT 21H
+[ 104]        :                                       
+[ 105]    0382: BA B6 00                              LEA DX,OP0      ; print exit option
+[ 106]    0385: CD 21                                 INT 21H
+[ 107]        :                                       
+[ 108]    0387: BA 16 00                              LEA DX,NEWL
+[ 109]    038A: CD 21                                 INT 21H
+[ 110]    038C: BA 16 00                              LEA DX,NEWL
+[ 111]    038F: CD 21                                 INT 21H
+[ 112]        :                                       
+[ 113]    0391: BA 10 02                              LEA DX,SELECTMSG    ; print select message
+[ 114]    0394: CD 21                                 INT 21H
+[ 115]        :                                       
+[ 116]    0396: B4 01                                 MOV AH,1
+[ 117]    0398: CD 21                                 INT 21H             ; taking input to select a option
+[ 118]    039A: A2 03 00                              MOV SELECT,AL
+[ 119]        :                                       
+[ 120]        :                                       
+[ 121]    039D: 80 3E 03 00 31                        CMP SELECT,'1'
+[ 122]    03A2: 74 4D                                 JE DECIMAL          ; part1: decimal to others
+[ 123]    03A4: 80 3E 03 00 32                        CMP SELECT,'2'
+[ 124]    03A9: 74 46                                 JE DECIMAL
+[ 125]        :                                       
+[ 126]    03AB: 80 3E 03 00 33                        CMP SELECT,'3'
+[ 127]    03B0: 75 03 E9 A7 00                        JE BINARY           ; part2: binary to others
+[ 128]    03B5: 80 3E 03 00 34                        CMP SELECT,'4'
+[ 129]    03BA: 75 03 E9 9D 00                        JE BINARY
+[ 130]        :                                       
+[ 131]    03BF: 80 3E 03 00 35                        CMP SELECT,'5'
+[ 132]    03C4: 75 03 E9 FE 00                        JE HEXADECIMAL      ; part3: hexadecimal to others
+[ 133]    03C9: 80 3E 03 00 36                        CMP SELECT,'6'
+[ 134]    03CE: 75 03 E9 F4 00                        JE HEXADECIMAL
+[ 135]        :                                       
+[ 136]    03D3: 80 3E 03 00 30                        CMP SELECT,'0'      ; part4: exit
+[ 137]    03D8: 75 03 E9 B8 03                        JE EXIT
+[ 138]        :                                       
+[ 139]        :                                       ;;ERROR TEST
+[ 140]    03DD: 80 3E 03 00 30                        CMP SELECT,'0'
+[ 141]    03E2: 7D 03 E9 82 03                        JL ERROR
+[ 142]        :                                       
+[ 143]    03E7: 80 3E 03 00 36                        CMP SELECT,'6'
+[ 144]    03EC: 7E 03 E9 78 03                        JG ERROR
+[ 145]        :                                       ;;;;;;;;;;;;
+[ 146]        :                                       
+[ 147]        :                                       
+[ 148]    03F1:                                       DECIMAL:    ; part1
+[ 149]        :                                       
+[ 150]    03F1: B4 09                                 MOV AH,9
+[ 151]    03F3: BA 16 00                              LEA DX,NEWL
+[ 152]    03F6: CD 21                                 INT 21H
+[ 153]    03F8: BA 16 00                              LEA DX,NEWL
+[ 154]    03FB: CD 21                                 INT 21H
+[ 155]    03FD: BA 16 00                              LEA DX,NEWL
+[ 156]    0400: CD 21                                 INT 21H
+[ 157]        :                                       
+[ 158]    0402: BA BF 00                              LEA DX,DECIMALINP
+[ 159]    0405: CD 21                                 INT 21H
+[ 160]        :                                       
+[ 161]    0407: BA 16 00                              LEA DX,NEWL
+[ 162]    040A: CD 21                                 INT 21H
+[ 163]        :                                       
+[ 164]    040C: BA 80 01                              LEA DX,INDECIMAL
+[ 165]    040F: CD 21                                 INT 21H
+[ 166]        :                                       
+[ 167]    0411: E8 1E 01                              CALL INPUT_DECIMALFUN   ; calling decimal_input function
+[ 168]    0414: 89 1E 04 00                           MOV INP1,BX         ; input saved in INP1
+[ 169]        :                                       
+[ 170]    0418: 80 3E 03 00 31                        CMP SELECT,'1'          ; for binary output
+[ 171]    041D: 74 07                                 JE OUT_BINARY
+[ 172]        :                                       
+[ 173]    041F: 80 3E 03 00 32                        CMP SELECT,'2'          ; for hexadecimal output
+[ 174]    0424: 74 1B                                 JE OUT_HEXA
+[ 175]        :                                       
+[ 176]        :                                       
+[ 177]    0426:                                       OUT_BINARY:
+[ 178]        :                                       
+[ 179]    0426: B4 09                                 MOV AH,9
+[ 180]    0428: BA 16 00                              LEA DX,NEWL
+[ 181]    042B: CD 21                                 INT 21H
+[ 182]    042D: BA 16 00                              LEA DX,NEWL
+[ 183]    0430: CD 21                                 INT 21H
+[ 184]        :                                       
+[ 185]    0432: BA 90 01                              LEA DX,INBINARY
+[ 186]    0435: CD 21                                 INT 21H
+[ 187]        :                                       
+[ 188]        :                                       
+[ 189]    0437: 8B 1E 04 00                           MOV BX,INP1     ; fix input in a register for output
+[ 190]    043B: E8 09 02                              CALL OUT_BINARYFUN      ; calling binary_output function
+[ 191]        :                                       
+[ 192]    043E: E9 3B 03                              JMP AGAIN       ; jump to redo label
+[ 193]        :                                       
+[ 194]        :                                       
+[ 195]    0441:                                       OUT_HEXA:
+[ 196]        :                                       
+[ 197]    0441: B4 09                                 MOV AH,9
+[ 198]    0443: BA 16 00                              LEA DX,NEWL
+[ 199]    0446: CD 21                                 INT 21H
+[ 200]    0448: BA 16 00                              LEA DX,NEWL
+[ 201]    044B: CD 21                                 INT 21H
+[ 202]        :                                       
+[ 203]    044D: BA 9F 01                              LEA DX,INHEXADECIMAL
+[ 204]    0450: CD 21                                 INT 21H
+[ 205]        :                                       
+[ 206]    0452: 8B 1E 04 00                           MOV BX,INP1     ; fix input in a register for output
+[ 207]    0456: E8 AA 01                              CALL OUT_HEXAFUN        ; calling hexadecimal_output function
+[ 208]        :                                       
+[ 209]    0459: E9 20 03                              JMP AGAIN       ; jump to redo label
+[ 210]        :                                       
+[ 211]        :                                       
+[ 212]        :                                       
+[ 213]    045C:                                       BINARY:
+[ 214]        :                                       
+[ 215]    045C: B4 09                                 MOV AH,9
+[ 216]    045E: BA 16 00                              LEA DX,NEWL
+[ 217]    0461: CD 21                                 INT 21H
+[ 218]    0463: BA 16 00                              LEA DX,NEWL
+[ 219]    0466: CD 21                                 INT 21H
+[ 220]    0468: BA 16 00                              LEA DX,NEWL
+[ 221]    046B: CD 21                                 INT 21H
+[ 222]        :                                       
+[ 223]    046D: BA 02 01                              LEA DX,BINARYINP
+[ 224]    0470: CD 21                                 INT 21H
+[ 225]        :                                       
+[ 226]    0472: BA 16 00                              LEA DX,NEWL
+[ 227]    0475: CD 21                                 INT 21H
+[ 228]        :                                       
+[ 229]    0477: BA 90 01                              LEA DX,INBINARY
+[ 230]    047A: CD 21                                 INT 21H
+[ 231]        :                                       
+[ 232]    047C: E8 DC 01                              CALL INPUT_BINARYFUN
+[ 233]    047F: 89 1E 06 00                           MOV INP2,BX
+[ 234]        :                                       
+[ 235]    0483: 80 3E 03 00 33                        CMP SELECT,'3'
+[ 236]    0488: 74 07                                 JE OUT_DECIMAL
+[ 237]        :                                       
+[ 238]    048A: 80 3E 03 00 34                        CMP SELECT,'4'
+[ 239]    048F: 74 1B                                 JE OUT_HEXA2
+[ 240]        :                                       
+[ 241]        :                                       
+[ 242]    0491:                                       OUT_DECIMAL:
+[ 243]        :                                       
+[ 244]    0491: B4 09                                 MOV AH,9
+[ 245]    0493: BA 16 00                              LEA DX,NEWL
+[ 246]    0496: CD 21                                 INT 21H
+[ 247]    0498: BA 16 00                              LEA DX,NEWL
+[ 248]    049B: CD 21                                 INT 21H
+[ 249]        :                                       
+[ 250]    049D: BA 80 01                              LEA DX,INDECIMAL
+[ 251]    04A0: CD 21                                 INT 21H
+[ 252]        :                                       
+[ 253]    04A2: 8B 1E 06 00                           MOV BX,INP2
+[ 254]    04A6: E8 DC 01                              CALL OUT_DECIMALFUN
+[ 255]        :                                       
+[ 256]    04A9: E9 D0 02                              JMP AGAIN
+[ 257]        :                                       
+[ 258]    04AC:                                       OUT_HEXA2:
+[ 259]        :                                       
+[ 260]    04AC: B4 09                                 MOV AH,9
+[ 261]    04AE: BA 16 00                              LEA DX,NEWL
+[ 262]    04B1: CD 21                                 INT 21H
+[ 263]    04B3: BA 16 00                              LEA DX,NEWL
+[ 264]    04B6: CD 21                                 INT 21H
+[ 265]        :                                       
+[ 266]    04B8: BA 9F 01                              LEA DX,INHEXADECIMAL
+[ 267]    04BB: CD 21                                 INT 21H
+[ 268]        :                                       
+[ 269]    04BD: 8B 1E 06 00                           MOV BX,INP2
+[ 270]    04C1: E8 3F 01                              CALL OUT_HEXAFUN
+[ 271]        :                                       
+[ 272]    04C4: E9 B5 02                              JMP AGAIN
+[ 273]        :                                       
+[ 274]        :                                       
+[ 275]        :                                       
+[ 276]    04C7:                                       hexadecimal:
+[ 277]        :                                       
+[ 278]    04C7: B4 09                                 MOV AH,9
+[ 279]    04C9: BA 16 00                              LEA DX,NEWL
+[ 280]    04CC: CD 21                                 INT 21H
+[ 281]    04CE: BA 16 00                              LEA DX,NEWL
+[ 282]    04D1: CD 21                                 INT 21H
+[ 283]    04D3: BA 16 00                              LEA DX,NEWL
+[ 284]    04D6: CD 21                                 INT 21H
+[ 285]        :                                       
+[ 286]    04D8: BA 43 01                              LEA DX,HEXADECIMALINP
+[ 287]    04DB: CD 21                                 INT 21H
+[ 288]        :                                       
+[ 289]    04DD: BA 16 00                              LEA DX,NEWL
+[ 290]    04E0: CD 21                                 INT 21H
+[ 291]        :                                       
+[ 292]    04E2: BA 9F 01                              LEA DX,INHEXADECIMAL
+[ 293]    04E5: CD 21                                 INT 21H
+[ 294]        :                                       
+[ 295]    04E7: E8 34 02                              CALL INPUT_HEXAFUN
+[ 296]    04EA: 89 1E 08 00                           MOV INP3,BX
+[ 297]        :                                       
+[ 298]    04EE: 80 3E 03 00 35                        CMP SELECT,'5'
+[ 299]    04F3: 74 07                                 JE OUT_DECIMAL2
+[ 300]        :                                       
+[ 301]    04F5: 80 3E 03 00 36                        CMP SELECT,'6'
+[ 302]    04FA: 74 1B                                 JE OUT_BINARY2
+[ 303]        :                                       
+[ 304]        :                                       
+[ 305]    04FC:                                       OUT_DECIMAL2:
+[ 306]        :                                       
+[ 307]    04FC: B4 09                                 MOV AH,9
+[ 308]    04FE: BA 16 00                              LEA DX,NEWL
+[ 309]    0501: CD 21                                 INT 21H
+[ 310]    0503: BA 16 00                              LEA DX,NEWL
+[ 311]    0506: CD 21                                 INT 21H
+[ 312]        :                                       
+[ 313]    0508: BA 80 01                              LEA DX,INDECIMAL
+[ 314]    050B: CD 21                                 INT 21H
+[ 315]        :                                       
+[ 316]        :                                       
+[ 317]    050D: 8B 1E 08 00                           MOV BX,INP3
+[ 318]    0511: E8 71 01                              CALL OUT_DECIMALFUN
+[ 319]        :                                       
+[ 320]    0514: E9 65 02                              JMP AGAIN
+[ 321]        :                                       
+[ 322]        :                                       
+[ 323]    0517:                                       OUT_BINARY2:
+[ 324]        :                                       
+[ 325]    0517: B4 09                                 MOV AH,9
+[ 326]    0519: BA 16 00                              LEA DX,NEWL
+[ 327]    051C: CD 21                                 INT 21H
+[ 328]    051E: BA 16 00                              LEA DX,NEWL
+[ 329]    0521: CD 21                                 INT 21H
+[ 330]        :                                       
+[ 331]    0523: BA 90 01                              LEA DX,INBINARY
+[ 332]    0526: CD 21                                 INT 21H
+[ 333]        :                                       
+[ 334]    0528: 8B 1E 08 00                           MOV BX,INP3
+[ 335]    052C: E8 18 01                              CALL OUT_BINARYFUN
+[ 336]        :                                       
+[ 337]    052F: E9 4A 02                              jmp AGAIN
+[ 338]        :                                       
+[ 339]        :                                       
+[ 340]        :                                       
+[ 341]        :                                       
+[ 342]        :                                       
+[ 343]        :                                       
+[ 344]        :                                       ;;;Functions Area
+[ 345]        :                                       
+[ 346]        :                                       ;;; input_deci and convert into binary(input in bx)
+[ 347]        :                                       
+[ 348]    0532:                                       INPUT_DECIMALFUN PROC
+[ 349]        :                                       
+[ 350]    0532: B4 01                                 MOV AH,1
+[ 351]    0534: CD 21                                 INT 21H
+[ 352]    0536: A2 02 00                              MOV IND,AL
+[ 353]        :                                       
+[ 354]    0539: 80 3E 02 00 2D                        CMP IND,'-'
+[ 355]    053E: 75 02                                 JNE NEXTPOS
+[ 356]        :                                       
+[ 357]    0540: EB 0A                                 JMP BEGIN1
+[ 358]        :                                       
+[ 359]    0542:                                       NEXTPOS:
+[ 360]    0542: 80 3E 02 00 2B                        CMP IND,'+'
+[ 361]    0547: 74 03 E9 0A 02                        JNE ERRORIN
+[ 362]        :                                       
+[ 363]        :                                       
+[ 364]    054C:                                       BEGIN1:
+[ 365]    054C: 33 DB                                 XOR BX,BX
+[ 366]        :                                       
+[ 367]    054E: B4 01                                 MOV AH,1
+[ 368]    0550: CD 21                                 INT 21H
+[ 369]        :                                       
+[ 370]    0552: B9 00 00                              MOV CX,0
+[ 371]        :                                       
+[ 372]    0555:                                       REPEAT3:
+[ 373]        :                                       
+[ 374]        :                                       ;;ERROR TEST
+[ 375]    0555: 3C 30                                 CMP AL,'0'
+[ 376]    0557: 7D 03 E9 FA 01                        JL ERRORIN
+[ 377]        :                                       
+[ 378]    055C: 3C 39                                 CMP AL,'9'
+[ 379]    055E: 7E 03 E9 F3 01                        JG ERRORIN
+[ 380]        :                                       ;;;;;;;;;;;
+[ 381]        :                                       
+[ 382]    0563: 83 F9 00                              CMP CX,0
+[ 383]    0566: 74 14                                 JE ADD1
+[ 384]    0568: 83 F9 01                              CMP CX,1
+[ 385]    056B: 74 14                                 JE ADD2
+[ 386]    056D: 83 F9 02                              CMP CX,2
+[ 387]    0570: 74 14                                 JE ADD3
+[ 388]    0572: 83 F9 03                              CMP CX,3
+[ 389]    0575: 74 14                                 JE ADD4
+[ 390]    0577: 83 F9 04                              CMP CX,4
+[ 391]    057A: 74 14                                 JE ADD5
+[ 392]        :                                       
+[ 393]    057C:                                       ADD1:
+[ 394]    057C: A2 0F 00                              MOV D1,AL
+[ 395]    057F: EB 14                                 JMP WORK
+[ 396]    0581:                                       ADD2:
+[ 397]    0581: A2 10 00                              MOV D2,AL
+[ 398]    0584: EB 0F                                 JMP WORK
+[ 399]    0586:                                       ADD3:
+[ 400]    0586: A2 11 00                              MOV D3,AL
+[ 401]    0589: EB 0A                                 JMP WORK
+[ 402]    058B:                                       ADD4:
+[ 403]    058B: A2 12 00                              MOV D4,AL
+[ 404]    058E: EB 05                                 JMP WORK
+[ 405]    0590:                                       ADD5:
+[ 406]    0590: A2 13 00                              MOV D5,AL
+[ 407]    0593: EB 00                                 JMP WORK
+[ 408]        :                                       
+[ 409]        :                                       
+[ 410]    0595:                                       WORK:
+[ 411]    0595: 25 0F 00                              AND AX,000FH
+[ 412]    0598: 50                                    PUSH AX
+[ 413]        :                                       
+[ 414]    0599: B8 0A 00                              MOV AX,10
+[ 415]    059C: F7 E3                                 MUL BX
+[ 416]    059E: 5B                                    POP BX
+[ 417]    059F: 03 D8                                 ADD BX,AX
+[ 418]        :                                       
+[ 419]    05A1: 41                                    INC CX
+[ 420]    05A2: 83 F9 05                              CMP CX,5
+[ 421]    05A5: 74 0E                                 JE EXIT2
+[ 422]        :                                       
+[ 423]    05A7: B4 01                                 MOV AH,1
+[ 424]    05A9: CD 21                                 INT 21H
+[ 425]        :                                       
+[ 426]    05AB: 3C 0D                                 CMP AL,0DH
+[ 427]    05AD: 74 48                                 JE EXIT1
+[ 428]        :                                       
+[ 429]    05AF: 3C 0D                                 CMP AL,0DH
+[ 430]    05B1: 75 00                                 JNE REPEATING
+[ 431]        :                                       
+[ 432]        :                                       
+[ 433]    05B3:                                       REPEATING:
+[ 434]        :                                       
+[ 435]    05B3: EB A0                                 JMP REPEAT3
+[ 436]        :                                       
+[ 437]        :                                       
+[ 438]    05B5:                                       EXIT2:
+[ 439]        :                                       
+[ 440]    05B5: A0 0F 00                              MOV AL,D1
+[ 441]    05B8: 3C 36                                 CMP AL,'6'
+[ 442]    05BA: 7E 03 E9 AA 01                        JG ERROR
+[ 443]    05BF: 3C 36                                 CMP AL,'6'
+[ 444]    05C1: 7E 00                                 JLE NEXT2
+[ 445]        :                                       
+[ 446]    05C3:                                       NEXT2:
+[ 447]    05C3: A0 10 00                              MOV AL,D2
+[ 448]    05C6: 3C 35                                 CMP AL,'5'
+[ 449]    05C8: 7E 03 E9 89 01                        JG ERRORIN
+[ 450]    05CD: 3C 35                                 CMP AL,'5'
+[ 451]    05CF: 7E 00                                 JLE NEXT3
+[ 452]        :                                       
+[ 453]    05D1:                                       NEXT3:
+[ 454]    05D1: A0 11 00                              MOV AL,D3
+[ 455]    05D4: 3C 35                                 CMP AL,'5'
+[ 456]    05D6: 7E 03 E9 7B 01                        JG ERRORIN
+[ 457]    05DB: 3C 35                                 CMP AL,'5'
+[ 458]    05DD: 7E 00                                 JLE NEXT4
+[ 459]        :                                       
+[ 460]    05DF:                                       NEXT4:
+[ 461]    05DF: A0 12 00                              MOV AL,D4
+[ 462]    05E2: 3C 33                                 CMP AL,'3'
+[ 463]    05E4: 7E 03 E9 6D 01                        JG ERRORIN
+[ 464]    05E9: 3C 33                                 CMP AL,'3'
+[ 465]    05EB: 7E 00                                 JLE NEXT5
+[ 466]        :                                       
+[ 467]    05ED:                                       NEXT5:
+[ 468]    05ED: A0 13 00                              MOV AL,D5
+[ 469]    05F0: 3C 35                                 CMP AL,'5'
+[ 470]    05F2: 7E 03 E9 5F 01                        JG ERRORIN
+[ 471]        :                                       
+[ 472]    05F7:                                       EXIT1:
+[ 473]        :                                       
+[ 474]    05F7: 80 3E 02 00 2D                        CMP IND,'-'
+[ 475]    05FC: 74 02                                 JE NGD
+[ 476]        :                                       
+[ 477]    05FE: EB 02                                 JMP EXITIND
+[ 478]    0600:                                       NGD:
+[ 479]    0600: F7 DB                                 NEG BX
+[ 480]        :                                       
+[ 481]    0602:                                       EXITIND:
+[ 482]        :                                       
+[ 483]    0602: C3                                    RET
+[ 484]        :                                       INPUT_DECIMALFUN ENDP
+[ 485]        :                                       
+[ 486]        :                                       
+[ 487]        :                                       ;;; output_hexadecimal from binary(work with bx)
+[ 488]        :                                       
+[ 489]    0603:                                       out_hexafun proc
+[ 490]        :                                       
+[ 491]    0603: B0 00                                 mov al,0
+[ 492]    0605: A2 0A 00                              mov count,al
+[ 493]        :                                       
+[ 494]    0608: 33 D2                                 xor dx,dx
+[ 495]    060A: 33 C0                                 xor ax,ax
+[ 496]        :                                       
+[ 497]        :                                       
+[ 498]    060C: B9 10 00                              mov cx,16
+[ 499]        :                                       
+[ 500]    060F:                                       while:
+[ 501]    060F: D1 E2                                 shl dx,1
+[ 502]    0611: FE 06 0A 00                           inc count
+[ 503]        :                                       
+[ 504]    0615: D1 E3                                 shl bx,1
+[ 505]    0617: 72 05                                 jc one
+[ 506]        :                                       
+[ 507]        :                                       
+[ 508]    0619: B8 00 00                              mov ax,0
+[ 509]    061C: EB 03                                 jmp cont
+[ 510]        :                                       
+[ 511]    061E:                                       one:
+[ 512]    061E: B8 01 00                              mov ax,1
+[ 513]        :                                       
+[ 514]    0621:                                       cont:
+[ 515]    0621: 0B D0                                 or dx,ax
+[ 516]        :                                       
+[ 517]    0623: 80 3E 0A 00 04                        cmp count,4
+[ 518]    0628: 74 02                                 je pus
+[ 519]    062A: EB 18                                 jmp lp
+[ 520]        :                                       
+[ 521]    062C:                                       pus:
+[ 522]    062C: 83 FA 09                              cmp dx,9
+[ 523]    062F: 7D 05                                 jge letter
+[ 524]        :                                       
+[ 525]    0631: 83 C2 30                              add dx,30h
+[ 526]    0634: EB 03                                 jmp prnt
+[ 527]        :                                       
+[ 528]    0636:                                       letter:
+[ 529]    0636: 83 C2 37                              add dx,37h
+[ 530]        :                                       
+[ 531]    0639:                                       prnt:
+[ 532]    0639: B4 02                                 mov ah,2
+[ 533]    063B: CD 21                                 int 21h
+[ 534]        :                                       
+[ 535]    063D: 33 D2                                 xor dx,dx
+[ 536]    063F: C6 06 0A 00 00                        mov count,0
+[ 537]        :                                       
+[ 538]    0644:                                       lp:
+[ 539]    0644: E2 C9                                 loop while
+[ 540]        :                                       
+[ 541]        :                                       
+[ 542]        :                                       
+[ 543]        :                                       
+[ 544]        :                                       
+[ 545]    0646: C3                                    ret
+[ 546]        :                                       out_hexafun endp
+[ 547]        :                                       
+[ 548]        :                                       
+[ 549]        :                                       
+[ 550]        :                                       
+[ 551]        :                                       ;;;output_binary from binary(work with bx)
+[ 552]        :                                       
+[ 553]    0647:                                       OUT_BINARYFUN PROC
+[ 554]        :                                       
+[ 555]    0647: B4 02                                 MOV AH,2
+[ 556]    0649: B9 10 00                              MOV CX,16
+[ 557]        :                                       
+[ 558]    064C:                                       TOPBIN:
+[ 559]    064C: D1 E3                                 SHL BX,1
+[ 560]    064E: 73 04                                 JNC ZEROBIN
+[ 561]        :                                       
+[ 562]    0650: B2 31                                 MOV DL,49
+[ 563]    0652: EB 02                                 JMP PRINTBIN
+[ 564]        :                                       
+[ 565]    0654:                                       ZEROBIN:
+[ 566]    0654: B2 30                                 MOV DL,48
+[ 567]        :                                       
+[ 568]    0656:                                       PRINTBIN:
+[ 569]    0656: CD 21                                 INT 21H
+[ 570]    0658: E2 F2                                 LOOP TOPBIN
+[ 571]        :                                       
+[ 572]        :                                       
+[ 573]    065A: C3                                    RET
+[ 574]        :                                       OUT_BINARYFUN ENDP
+[ 575]        :                                       
+[ 576]        :                                       
+[ 577]        :                                       
+[ 578]        :                                       
+[ 579]        :                                       ;;;input_binary and convert into binary
+[ 580]        :                                       
+[ 581]    065B:                                       INPUT_BINARYFUN PROC
+[ 582]        :                                       
+[ 583]    065B: 33 C0                                 XOR AX,AX
+[ 584]    065D: 33 DB                                 XOR BX,BX
+[ 585]    065F: 33 C9                                 XOR CX,CX
+[ 586]    0661: 33 D2                                 XOR DX,DX
+[ 587]        :                                       
+[ 588]    0663: B9 10 00                              MOV CX,16
+[ 589]        :                                       
+[ 590]    0666:                                       INPUT_BIN:
+[ 591]        :                                       
+[ 592]    0666: B4 01                                 MOV AH,1
+[ 593]    0668: CD 21                                 INT 21H
+[ 594]        :                                       
+[ 595]    066A: 3C 0D                                 CMP AL,0DH
+[ 596]    066C: 74 16                                 JE BREAK
+[ 597]        :                                       
+[ 598]        :                                       ;;ERROR TEST
+[ 599]    066E: 3C 31                                 CMP AL,'1'
+[ 600]    0670: 7E 03 E9 E1 00                        JG ERRORIN
+[ 601]        :                                       
+[ 602]    0675: 3C 30                                 CMP AL,'0'
+[ 603]    0677: 7D 03 E9 DA 00                        JL ERRORIN
+[ 604]        :                                       ;;;;;;;;;;;;
+[ 605]        :                                       
+[ 606]    067C: D1 E3                                 SHL BX,1
+[ 607]        :                                       
+[ 608]        :                                       
+[ 609]    067E: 2C 30                                 SUB AL,30H
+[ 610]    0680: 0A D8                                 OR BL,AL
+[ 611]        :                                       
+[ 612]    0682: E2 E2                                 LOOP INPUT_BIN
+[ 613]        :                                       
+[ 614]    0684:                                       BREAK:
+[ 615]        :                                       
+[ 616]        :                                       
+[ 617]    0684: C3                                    RET
+[ 618]        :                                       INPUT_BINARYFUN ENDP
+[ 619]        :                                       
+[ 620]        :                                       
+[ 621]        :                                       
+[ 622]        :                                       ;;;output_decimal from binary
+[ 623]        :                                       
+[ 624]    0685:                                       OUT_DECIMALFUN PROC
+[ 625]        :                                       
+[ 626]    0685: 33 C0                                 XOR AX,AX
+[ 627]        :                                       
+[ 628]    0687: 8B C3                                 MOV AX,BX
+[ 629]    0689: 89 1E 00 00                           MOV OUTD,BX
+[ 630]        :                                       
+[ 631]    068D:                                       DO:
+[ 632]        :                                       
+[ 633]    068D: A1 00 00                              MOV AX,OUTD
+[ 634]        :                                       
+[ 635]    0690: 3D 0F 27                              CMP AX,9999
+[ 636]    0693: 7F 19                                 JG ATENT
+[ 637]        :                                       
+[ 638]    0695: 3D E7 03                              CMP AX,999
+[ 639]    0698: 7F 2A                                 JG AONET
+[ 640]        :                                       
+[ 641]    069A: 3D 63 00                              CMP AX,99
+[ 642]    069D: 7F 3B                                 JG AONEH
+[ 643]        :                                       
+[ 644]    069F: 3D 09 00                              CMP AX,9
+[ 645]    06A2: 7F 4C                                 JG ATEN
+[ 646]        :                                       
+[ 647]    06A4: 3D 00 00                              CMP AX,0
+[ 648]    06A7: 7D 5D                                 JGE AZERO
+[ 649]        :                                       
+[ 650]    06A9: 3D 00 00                              CMP AX,0
+[ 651]    06AC: 7C 62                                 JL UZERO
+[ 652]        :                                       
+[ 653]        :                                       
+[ 654]    06AE:                                       ATENT:
+[ 655]        :                                       
+[ 656]    06AE: 33 D2                                 XOR DX,DX
+[ 657]        :                                       
+[ 658]    06B0: BB 10 27                              MOV BX,10000
+[ 659]    06B3: F7 F3                                 DIV BX
+[ 660]        :                                       
+[ 661]    06B5: 89 16 14 00                           MOV REM,DX
+[ 662]        :                                       
+[ 663]    06B9: 04 30                                 ADD AL,30H
+[ 664]        :                                       
+[ 665]    06BB: B4 02                                 MOV AH,2
+[ 666]    06BD: 8A D0                                 MOV DL,AL
+[ 667]    06BF: CD 21                                 INT 21H
+[ 668]        :                                       
+[ 669]    06C1: A1 14 00                              MOV AX,REM
+[ 670]        :                                       
+[ 671]        :                                       
+[ 672]    06C4:                                       AONET:
+[ 673]        :                                       
+[ 674]    06C4: 33 D2                                 XOR DX,DX
+[ 675]        :                                       
+[ 676]    06C6: BB E8 03                              MOV BX,1000
+[ 677]    06C9: F7 F3                                 DIV BX
+[ 678]        :                                       
+[ 679]    06CB: 89 16 14 00                           MOV REM,DX
+[ 680]        :                                       
+[ 681]    06CF: 04 30                                 ADD AL,30H
+[ 682]        :                                       
+[ 683]    06D1: B4 02                                 MOV AH,2
+[ 684]    06D3: 8A D0                                 MOV DL,AL
+[ 685]    06D5: CD 21                                 INT 21H
+[ 686]        :                                       
+[ 687]    06D7: A1 14 00                              MOV AX,REM
+[ 688]        :                                       
+[ 689]        :                                       
+[ 690]    06DA:                                       AONEH:
+[ 691]        :                                       
+[ 692]    06DA: 33 D2                                 XOR DX,DX
+[ 693]        :                                       
+[ 694]    06DC: BB 64 00                              MOV BX,100
+[ 695]    06DF: F7 F3                                 DIV BX
+[ 696]        :                                       
+[ 697]    06E1: 89 16 14 00                           MOV REM,DX
+[ 698]        :                                       
+[ 699]    06E5: 04 30                                 ADD AL,30H
+[ 700]        :                                       
+[ 701]    06E7: B4 02                                 MOV AH,2
+[ 702]    06E9: 8A D0                                 MOV DL,AL
+[ 703]    06EB: CD 21                                 INT 21H
+[ 704]        :                                       
+[ 705]    06ED: A1 14 00                              MOV AX,REM
+[ 706]        :                                       
+[ 707]        :                                       
+[ 708]    06F0:                                       ATEN:
+[ 709]        :                                       
+[ 710]    06F0: 33 D2                                 XOR DX,DX
+[ 711]        :                                       
+[ 712]    06F2: BB 0A 00                              MOV BX,10
+[ 713]    06F5: F7 F3                                 DIV BX
+[ 714]        :                                       
+[ 715]    06F7: 89 16 14 00                           MOV REM,DX
+[ 716]        :                                       
+[ 717]    06FB: 04 30                                 ADD AL,30H
+[ 718]        :                                       
+[ 719]    06FD: B4 02                                 MOV AH,2
+[ 720]    06FF: 8A D0                                 MOV DL,AL
+[ 721]    0701: CD 21                                 INT 21H
+[ 722]        :                                       
+[ 723]    0703: A1 14 00                              MOV AX,REM
+[ 724]        :                                       
+[ 725]        :                                       
+[ 726]    0706:                                       AZERO:
+[ 727]        :                                       
+[ 728]    0706: 04 30                                 ADD AL,30H
+[ 729]        :                                       
+[ 730]    0708: B4 02                                 MOV AH,2
+[ 731]    070A: 8A D0                                 MOV DL,AL
+[ 732]    070C: CD 21                                 INT 21H
+[ 733]        :                                       
+[ 734]    070E: EB 0D                                 JMP BREAK2
+[ 735]        :                                       
+[ 736]        :                                       
+[ 737]    0710:                                       UZERO:
+[ 738]        :                                       
+[ 739]    0710: B4 02                                 MOV AH,2
+[ 740]    0712: B2 2D                                 MOV DL,'-'
+[ 741]    0714: CD 21                                 INT 21H
+[ 742]        :                                       
+[ 743]    0716: F7 1E 00 00                           NEG OUTD
+[ 744]    071A: E9 70 FF                              JMP DO
+[ 745]        :                                       
+[ 746]        :                                       
+[ 747]    071D:                                       BREAK2:
+[ 748]        :                                       
+[ 749]    071D: C3                                    RET
+[ 750]        :                                       OUT_DECIMALFUN ENDP
+[ 751]        :                                       
+[ 752]        :                                       
+[ 753]        :                                       
+[ 754]        :                                       
+[ 755]        :                                       ;;;input_hexadecimal and convert into binary
+[ 756]        :                                       
+[ 757]    071E:                                       INPUT_HEXAFUN PROC
+[ 758]        :                                       
+[ 759]    071E: 33 DB                                 XOR BX,BX
+[ 760]    0720: 33 C9                                 XOR CX,CX
+[ 761]        :                                       
+[ 762]    0722: B9 04 00                              MOV CX,4
+[ 763]        :                                       
+[ 764]    0725:                                       WHILE2:
+[ 765]        :                                       
+[ 766]    0725: B4 01                                 MOV AH,1
+[ 767]    0727: CD 21                                 INT 21H
+[ 768]        :                                       
+[ 769]    0729: 3C 0D                                 CMP AL,0DH
+[ 770]    072B: 74 28                                 JE BREAK3
+[ 771]        :                                       
+[ 772]        :                                       ;;ERROR TEST
+[ 773]    072D: 3C 30                                 CMP AL,'0'
+[ 774]    072F: 7C 25                                 JL ERRORIN
+[ 775]        :                                       
+[ 776]    0731: 3C 39                                 CMP AL,'9'
+[ 777]    0733: 7F 02                                 JG STEP1
+[ 778]        :                                       
+[ 779]    0735: EB 08                                 JMP NEXT
+[ 780]        :                                       
+[ 781]    0737:                                       STEP1:
+[ 782]    0737: 3C 41                                 CMP AL,'A'
+[ 783]    0739: 7C 1B                                 JL ERRORIN
+[ 784]        :                                       
+[ 785]    073B: 3C 46                                 CMP AL,'F'
+[ 786]    073D: 7F 17                                 JG ERRORIN
+[ 787]        :                                       
+[ 788]    073F:                                       NEXT:
+[ 789]        :                                       ;;;;;;;;;;;;;;
+[ 790]    073F: D1 E3 D1 E3 D1 E3 D1 E3               SHL BX,4
+[ 791]        :                                       
+[ 792]    0747: 3C 39                                 CMP AL,39H
+[ 793]    0749: 7F 04                                 JG LETTER1
+[ 794]        :                                       
+[ 795]    074B: 2C 30                                 SUB AL,30H
+[ 796]    074D: EB 02                                 JMP SHIFT
+[ 797]        :                                       
+[ 798]    074F:                                       LETTER1:
+[ 799]    074F: 2C 37                                 SUB AL,37H
+[ 800]        :                                       
+[ 801]    0751:                                       SHIFT:
+[ 802]    0751: 0A D8                                 OR BL,AL
+[ 803]        :                                       
+[ 804]    0753: E2 D0                                 LOOP WHILE2
+[ 805]        :                                       
+[ 806]    0755:                                       BREAK3:
+[ 807]        :                                       
+[ 808]    0755: C3                                    RET
+[ 809]        :                                       INPUT_HEXAFUN ENDP
+[ 810]        :                                       
+[ 811]        :                                       
+[ 812]        :                                       
+[ 813]        :                                       
+[ 814]        :                                       ;;ERROR input
+[ 815]        :                                       
+[ 816]    0756:                                       ERRORIN:
+[ 817]        :                                       
+[ 818]    0756: B4 09                                 MOV AH,9
+[ 819]    0758: BA 16 00                              LEA DX,NEWL
+[ 820]    075B: CD 21                                 INT 21H
+[ 821]    075D: BA 16 00                              LEA DX,NEWL
+[ 822]    0760: CD 21                                 INT 21H
+[ 823]        :                                       
+[ 824]    0762: BA E2 01                              LEA DX,ERRORINP
+[ 825]    0765: CD 21                                 INT 21H
+[ 826]        :                                       
+[ 827]    0767: EB 13                                 JMP AGAIN
+[ 828]        :                                       
+[ 829]        :                                       
+[ 830]        :                                       
+[ 831]        :                                       ;;ERROR message
+[ 832]        :                                       
+[ 833]    0769:                                       ERROR:
+[ 834]        :                                       
+[ 835]    0769: B4 09                                 MOV AH,9
+[ 836]    076B: BA 16 00                              LEA DX,NEWL
+[ 837]    076E: CD 21                                 INT 21H
+[ 838]    0770: BA 16 00                              LEA DX,NEWL
+[ 839]    0773: CD 21                                 INT 21H
+[ 840]        :                                       
+[ 841]    0775: BA B3 01                              LEA DX,ERRORMSG
+[ 842]    0778: CD 21                                 INT 21H
+[ 843]        :                                       
+[ 844]    077A: EB 00                                 JMP AGAIN
+[ 845]        :                                       
+[ 846]        :                                       
+[ 847]        :                                       
+[ 848]        :                                       
+[ 849]        :                                       ;;REPEAT PROGRAMM
+[ 850]        :                                       
+[ 851]    077C:                                       AGAIN:
+[ 852]        :                                       
+[ 853]    077C: B4 09                                 MOV AH,9
+[ 854]    077E: BA 16 00                              LEA DX,NEWL
+[ 855]    0781: CD 21                                 INT 21H
+[ 856]    0783: BA 16 00                              LEA DX,NEWL
+[ 857]    0786: CD 21                                 INT 21H
+[ 858]    0788: BA 16 00                              LEA DX,NEWL
+[ 859]    078B: CD 21                                 INT 21H
+[ 860]    078D: BA 16 00                              LEA DX,NEWL
+[ 861]    0790: CD 21                                 INT 21H
+[ 862]        :                                       
+[ 863]        :                                       
+[ 864]    0792: E9 9B FB                              JMP START
+[ 865]        :                                       
+[ 866]        :                                       
+[ 867]        :                                       
+[ 868]        :                                       
+[ 869]        :                                       ;;end programm
+[ 870]        :                                       
+[ 871]    0795:                                       EXIT:
+[ 872]        :                                       
+[ 873]    0795: B4 09                                 MOV AH,9
+[ 874]    0797: BA 16 00                              LEA DX,NEWL
+[ 875]    079A: CD 21                                 INT 21H
+[ 876]    079C: BA 16 00                              LEA DX,NEWL
+[ 877]    079F: CD 21                                 INT 21H
+[ 878]    07A1: BA 16 00                              LEA DX,NEWL
+[ 879]    07A4: CD 21                                 INT 21H
+[ 880]        :                                       
+[ 881]    07A6: BA 19 02                              LEA DX,ENDMSG
+[ 882]    07A9: CD 21                                 INT 21H
+[ 883]        :                                       
+[ 884]    07AB: B4 4C                                 MOV AH,4CH      ; ignore emulator haulted
+[ 885]    07AD: CD 21                                 INT 21H
+[ 886]        :                                       
+[ 887]        :                                       
+[ 888]        :                                       
+[ 889]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: AF      -   bytes on last page (l.byte)
+0003: 01      -   bytes on last page (h.byte)
+0004: 05      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 00      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 00      -   SP - stack pointer (l.byte)
+0011: 01      -   SP - stack pointer (h.byte)
+0012: 0E      -   check sum (l.byte)
+0013: A6      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 33      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 33      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================

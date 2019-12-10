@@ -1,0 +1,50 @@
+< THE SYMBOL TABLE >  BOOLEANOP2018.exe  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+STACK                    	00000     	-5        	SEGMENT   	(ITSELF)  
+DATA                     	00010     	-5        	SEGMENT   	(ITSELF)  
+MSG_1                    	00000     	1         	VAR       	data      
+MSG_2                    	0001A     	1         	VAR       	data      
+MSG_3                    	00034     	1         	VAR       	data      
+MSG_4                    	00069     	1         	VAR       	data      
+ID_62207                 	00077     	1         	VAR       	data      
+ID_61927                 	00098     	1         	VAR       	data      
+ID_62591                 	000B6     	1         	VAR       	data      
+ID_60894                 	000D4     	1         	VAR       	data      
+ID_60955                 	000F8     	1         	VAR       	data      
+ID_60774                 	00118     	1         	VAR       	data      
+NEWLINE_MSG              	00134     	1         	VAR       	data      
+NUM_1                    	00137     	2         	VAR       	data      
+NUM_2                    	00139     	2         	VAR       	data      
+OP_NUM                   	0013B     	2         	VAR       	data      
+CODE                     	00024     	-5        	SEGMENT   	(ITSELF)  
+START                    	00000     	-1        	LABEL     	code      
+L1                       	0000F     	-1        	LABEL     	code      
+NN1                      	0001B     	-1        	LABEL     	code      
+HN1                      	0001F     	-1        	LABEL     	code      
+SH1                      	00023     	-1        	LABEL     	code      
+L2                       	00033     	-1        	LABEL     	code      
+L5                       	00041     	-1        	LABEL     	code      
+NN2                      	0004D     	-1        	LABEL     	code      
+HN2                      	00051     	-1        	LABEL     	code      
+SH2                      	00055     	-1        	LABEL     	code      
+L6                       	00065     	-1        	LABEL     	code      
+L3                       	0007A     	-1        	LABEL     	code      
+NN3                      	00086     	-1        	LABEL     	code      
+HN3                      	0008A     	-1        	LABEL     	code      
+SH3                      	0008E     	-1        	LABEL     	code      
+L4                       	0009E     	-1        	LABEL     	code      
+AND_OP                   	000BA     	-1        	LABEL     	code      
+OR_OP                    	000C0     	-1        	LABEL     	code      
+NOT_OP                   	000C6     	-1        	LABEL     	code      
+XOR_OP                   	000CD     	-1        	LABEL     	code      
+NEXT                     	000D3     	-1        	LABEL     	code      
+PUT_NUMBER_IN_STACK      	000D9     	-1        	LABEL     	code      
+DISPLAY_RESULT           	000EC     	-1        	LABEL     	code      
+SKIP_ADDING              	000F8     	-1        	LABEL     	code      
+NEWLINEP                 	00130     	-1        	NEAR      	code      
+===================================================================================================
+[ 9/5/2018  --  12:04:17 PM ] 
+< END >
+ 

@@ -1,0 +1,272 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+BOOLEANOP2018.exe -- emu8086 assembler version: 4.08  
+ 
+[ 9/5/2018  --  12:04:17 PM ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       PRINTF          MACRO   TXT
+[   2]        :                                       LEA                 DX, TXT
+[   3]        :                                       MOV                 AH, 09H
+[   4]        :                                       INT                 21H
+[   5]        :                                       ENDM
+[   6]        :                                       
+[   7]        :                                       SCANF           MACRO   NUMBER, LAB1, DONE_ENTER, NORMAL_NUM, HEX_NUM, SKIP_HEX
+[   8]        :                                       
+[   9]        :                                       MOV                 CX, 10H
+[  10]        :                                       
+[  11]        :                                       LAB1:
+[  12]        :                                       MOV             AH, 01H
+[  13]        :                                       INT             21H
+[  14]        :                                       
+[  15]        :                                       CMP             AL, 0DH
+[  16]        :                                       JE              DONE_ENTER
+[  17]        :                                       
+[  18]        :                                       CMP             AL, 41H
+[  19]        :                                       JAE             HEX_NUM
+[  20]        :                                       
+[  21]        :                                       NORMAL_NUM:
+[  22]        :                                       SUB         AL, 30H
+[  23]        :                                       JMP         SKIP_HEX
+[  24]        :                                       
+[  25]        :                                       HEX_NUM:
+[  26]        :                                       SUB         AL, 41H
+[  27]        :                                       ADD         AL, 0AH
+[  28]        :                                       
+[  29]        :                                       SKIP_HEX:
+[  30]        :                                       MOV             BL, AL
+[  31]        :                                       MOV             AX, NUMBER
+[  32]        :                                       
+[  33]        :                                       MUL             CX
+[  34]        :                                       
+[  35]        :                                       MOV             BH, 0
+[  36]        :                                       
+[  37]        :                                       ADD             AX, BX
+[  38]        :                                       
+[  39]        :                                       MOV             NUMBER, AX
+[  40]        :                                       
+[  41]        :                                       JMP             LAB1
+[  42]        :                                       
+[  43]        :                                       DONE_ENTER:
+[  44]        :                                       NOP
+[  45]        :                                       ENDM
+[  46]        :                                       
+[  47]        :                                       .STACK 100H
+[  48]        :                                       
+[  49]        :                                       .DATA
+[  50]    0100: 45 4E 54 45 52 20 54 48 45 20 46 52   MSG_1               DB  "ENTER THE FRST NUMBER: 0x$"
+                53 54 20 4E 55 4D 42 45 52 3A 20 30 
+                78 24                               
+[  51]    011A: 45 4E 54 45 52 20 54 48 45 20 53 43   MSG_2               DB  "ENTER THE SCND NUMBER: 0x$"
+                4E 44 20 4E 55 4D 42 45 52 3A 20 30 
+                78 24                               
+[  52]    0134: 45 4E 54 45 52 20 54 48 45 20 4F 50   MSG_3               DB  "ENTER THE OPRT NUMBER", 13, 10, "[1:AND, 2:OR, 3:NOT, 4:XOR]: $"
+                52 54 20 4E 55 4D 42 45 52 0D 0A 5B 
+                31 3A 41 4E 44 2C 20 32 3A 4F 52 2C 
+                20 33 3A 4E 4F 54 2C 20 34 3A 58 4F 
+                52 5D 3A 20 24                      
+[  53]    0169: 52 45 53 55 4C 54 20 49 53 3A 20 30   MSG_4               DB  "RESULT IS: 0x$"
+                78 24                               
+[  54]        :                                       
+[  55]    0177: 0A 0A 4E 55 52 55 4C 20 41 4C 49 41   ID_62207             DB  10, 10, "NURUL ALIA IZZATY ZAMRI ", 9,   "62207$"
+                20 49 5A 5A 41 54 59 20 5A 41 4D 52 
+                49 20 09 36 32 32 30 37 24          
+[  56]    0198: 0D 0A 4E 55 52 20 41 51 49 4C 41 48   ID_61927             DB  13, 10, "NUR AQILAH ABD MALEK", 9, 9,         "61927$"
+                20 41 42 44 20 4D 41 4C 45 4B 09 09 
+                36 31 39 32 37 24                   
+[  57]    01B6: 0D 0A 53 49 54 49 20 4E 55 52 48 41   ID_62591             DB  13, 10, "SITI NURHAMIZAH RAIM", 9, 9,      "62591$"
+                4D 49 5A 41 48 20 52 41 49 4D 09 09 
+                36 32 35 39 31 24                   
+[  58]    01D4: 0D 0A 48 41 52 49 54 48 5A 41 20 41   ID_60894             DB  13, 10, "HARITHZA ASSIKIN ZAHARUDDIN", 9,      "60894$"
+                53 53 49 4B 49 4E 20 5A 41 48 41 52 
+                55 44 44 49 4E 09 36 30 38 39 34 24 
+                                                    
+[  59]    01F8: 0D 0A 49 4E 54 41 4E 20 4E 55 52 53   ID_60955             DB  13, 10, "INTAN NURSHAFIRA JAAFAR", 9,        "60955$"
+                48 41 46 49 52 41 20 4A 41 41 46 41 
+                52 09 36 30 39 35 35 24             
+[  60]    0218: 0D 0A 46 41 54 49 4E 20 41 53 4E 41   ID_60774             DB  13, 10, "FATIN ASNA MAT TIYA", 9,               "60774$"
+                20 4D 41 54 20 54 49 59 41 09 36 30 
+                37 37 34 24                         
+[  61]        :                                       
+[  62]        :                                       
+[  63]    0234: 0D 0A 24                              NEWLINE_MSG         DB  13, 10, "$"
+[  64]        :                                       
+[  65]    0237: 00 00                                 NUM_1               DW  ?
+[  66]    0239: 00 00                                 NUM_2               DW  ?
+[  67]    023B: 00 00                                 OP_NUM              DW  ?
+[  68]        :                                       
+[  69]        :                                       .CODE
+[  70]        :                                       
+[  71]    0240:                                       START:
+[  72]    0240: B8 10 00                              MOV             AX, @DATA
+[  73]    0243: 8E D8                                 MOV             DS, AX
+[  74]        :                                       
+[  75]    0245: BA 00 00 B4 09 CD 21                  PRINTF          MSG_1
+[  76]    024C: B9 10 00 B4 01 CD 21 3C 0D 74 1C 3C   SCANF           NUM_1, L1, L2, NN1, HN1, SH1
+                41 73 04 2C 30 EB 04 2C 41 04 0A 8A 
+                D8 A1 37 01 F7 E1 B7 00 03 C3 A3 37 
+                01 EB DC 90                         
+[  77]        :                                       
+[  78]    0274: E8 F9 00                              CALL            NEWLINEP
+[  79]        :                                       
+[  80]        :                                       
+[  81]        :                                       
+[  82]    0277: BA 34 00 B4 09 CD 21                  PRINTF          MSG_3
+[  83]    027E: B9 10 00 B4 01 CD 21 3C 0D 74 1C 3C   SCANF           OP_NUM, L5, L6, NN2, HN2, SH2
+                41 73 04 2C 30 EB 04 2C 41 04 0A 8A 
+                D8 A1 3B 01 F7 E1 B7 00 03 C3 A3 3B 
+                01 EB DC 90                         
+[  84]        :                                       
+[  85]    02A6: E8 C7 00                              CALL            NEWLINEP
+[  86]        :                                       
+[  87]        :                                       
+[  88]    02A9: 83 3E 3B 01 03                        CMP             OP_NUM, 03H
+[  89]    02AE: 74 56                                 JE              NOT_OP
+[  90]        :                                       
+[  91]    02B0: BA 1A 00 B4 09 CD 21                  PRINTF          MSG_2
+[  92]    02B7: B9 10 00 B4 01 CD 21 3C 0D 74 1C 3C   SCANF           NUM_2, L3, L4, NN3, HN3, SH3
+                41 73 04 2C 30 EB 04 2C 41 04 0A 8A 
+                D8 A1 39 01 F7 E1 B7 00 03 C3 A3 39 
+                01 EB DC 90                         
+[  93]        :                                       
+[  94]    02DF: E8 8E 00                              CALL            NEWLINEP
+[  95]        :                                       
+[  96]    02E2: A1 37 01                              MOV             AX, NUM_1
+[  97]        :                                       
+[  98]    02E5: 83 3E 3B 01 01                        CMP             OP_NUM, 01H
+[  99]    02EA: 74 0E                                 JE              AND_OP
+[ 100]    02EC: 83 3E 3B 01 02                        CMP             OP_NUM, 02H
+[ 101]    02F1: 74 0D                                 JE              OR_OP
+[ 102]    02F3: 83 3E 3B 01 04                        CMP             OP_NUM, 04H
+[ 103]    02F8: 74 13                                 JE              XOR_OP
+[ 104]        :                                       
+[ 105]        :                                       
+[ 106]    02FA:                                       AND_OP:
+[ 107]    02FA: 23 06 39 01                           AND             AX, NUM_2
+[ 108]    02FE: EB 13                                 JMP             NEXT
+[ 109]        :                                       
+[ 110]    0300:                                       OR_OP:
+[ 111]    0300: 0B 06 39 01                           OR              AX, NUM_2
+[ 112]    0304: EB 0D                                 JMP             NEXT
+[ 113]        :                                       
+[ 114]    0306:                                       NOT_OP:
+[ 115]    0306: A1 37 01                              MOV             AX, NUM_1
+[ 116]    0309: F7 D0                                 NOT             AX
+[ 117]    030B: EB 06                                 JMP             NEXT
+[ 118]        :                                       
+[ 119]    030D:                                       XOR_OP:
+[ 120]    030D: 33 06 39 01                           XOR             AX, NUM_2
+[ 121]    0311: EB 00                                 JMP             NEXT
+[ 122]        :                                       
+[ 123]    0313:                                       NEXT:
+[ 124]    0313: BB 10 00                              MOV             BX, 0010H
+[ 125]    0316: B9 00 00                              MOV             CX, 0000H
+[ 126]        :                                       
+[ 127]    0319:                                       PUT_NUMBER_IN_STACK:
+[ 128]    0319: BA 00 00                              MOV             DX, 0000H
+[ 129]    031C: F7 F3                                 DIV             BX
+[ 130]    031E: 52                                    PUSH            DX
+[ 131]    031F: 41                                    INC             CX
+[ 132]        :                                       
+[ 133]    0320: 83 F9 04                              CMP             CX, 0004H
+[ 134]    0323: 75 F4                                 JNE             PUT_NUMBER_IN_STACK
+[ 135]        :                                       
+[ 136]        :                                       
+[ 137]        :                                       
+[ 138]    0325: BA 69 00 B4 09 CD 21                  PRINTF          MSG_4
+[ 139]        :                                       
+[ 140]        :                                       
+[ 141]        :                                       
+[ 142]    032C:                                       DISPLAY_RESULT:
+[ 143]    032C: 5A                                    POP             DX
+[ 144]        :                                       
+[ 145]    032D: 80 C2 30                              ADD             DL, 30H
+[ 146]        :                                       
+[ 147]    0330: 80 FA 39                              CMP             DL, 39H
+[ 148]    0333: 72 03                                 JB              SKIP_ADDING
+[ 149]        :                                       
+[ 150]    0335: 80 C2 07                              ADD             DL, 07H
+[ 151]        :                                       
+[ 152]        :                                       
+[ 153]    0338:                                       SKIP_ADDING:
+[ 154]        :                                       
+[ 155]    0338: B4 02                                 MOV             AH, 02H
+[ 156]    033A: CD 21                                 INT             21H
+[ 157]    033C: E2 EE                                 LOOP            DISPLAY_RESULT
+[ 158]        :                                       
+[ 159]        :                                       
+[ 160]    033E: E8 2F 00                              CALL            NEWLINEP
+[ 161]        :                                       
+[ 162]        :                                       
+[ 163]    0341: BA 77 00 B4 09 CD 21                  PRINTF          ID_62207
+[ 164]    0348: BA 98 00 B4 09 CD 21                  PRINTF          ID_61927
+[ 165]    034F: BA B6 00 B4 09 CD 21                  PRINTF          ID_62591
+[ 166]    0356: BA D4 00 B4 09 CD 21                  PRINTF          ID_60894
+[ 167]    035D: BA F8 00 B4 09 CD 21                  PRINTF          ID_60955
+[ 168]    0364: BA 18 01 B4 09 CD 21                  PRINTF          ID_60774
+[ 169]        :                                       
+[ 170]        :                                       
+[ 171]    036B: B8 00 4C                              MOV             AX, 4C00H
+[ 172]    036E: CD 21                                 INT             21H
+[ 173]        :                                       
+[ 174]    0370:                                       NEWLINEP    PROC
+[ 175]    0370: BA 34 01                              MOV         DX, OFFSET NEWLINE_MSG
+[ 176]    0373: B4 09                                 MOV         AH, 09H
+[ 177]    0375: CD 21                                 INT         21H
+[ 178]        :                                       
+[ 179]    0377: C3                                    RET
+[ 180]        :                                       NEWLINEP    ENDP
+[ 181]        :                                       
+[ 182]        :                                       
+[ 183]        :                                       END START
+[ 184]        :                                       
+[ 185]        :                                       
+[ 186]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: 78      -   bytes on last page (l.byte)
+0003: 01      -   bytes on last page (h.byte)
+0004: 03      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 00      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 00      -   SP - stack pointer (l.byte)
+0011: 01      -   SP - stack pointer (h.byte)
+0012: 70      -   check sum (l.byte)
+0013: 05      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 24      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 24      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================
